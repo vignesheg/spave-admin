@@ -48,6 +48,7 @@ const fetchData = async () => {
 
                 row.innerHTML = `
                     <td class="p-3">${details.college}</td>
+                    <td class="p-3">${details.upi}</td>
                     <td class="p-3">${details.department}</td>
                     <td class="p-3">${details.head.name}</td>
                     <td class="p-3">${details.head.rollNo}</td>
