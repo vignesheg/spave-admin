@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Event Management</title>
+    <script type="module" src="script.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+</head>
+<body class="bg-gray-100 p-5">
+
+    <div class="container mx-auto">
+        <h1 class="text-2xl font-bold text-center mb-5">Event Management</h1>
+
+        <!-- Download Buttons -->
+        <div class="flex justify-center gap-3 mb-5">
+            <button id="download-paper" class="bg-blue-500 text-white px-4 py-2 rounded">Download Paper 📝</button>
+            <button id="download-poster" class="bg-green-500 text-white px-4 py-2 rounded">Download Poster 🖼️</button>
+            <button id="download-project" class="bg-yellow-500 text-white px-4 py-2 rounded">Download Project 🏗️</button>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-blue-500 text-white">
+                    <tr>
+                        <th class="p-3">College</th>
+                        <th class="p-3">Department</th>
+                        <th class="p-3">Head Name</th>
+                        <th class="p-3">Roll No</th>
+                        <th class="p-3">Event</th>
+                        <th class="p-3">Verified</th>
+                        <th class="p-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table" class="text-center">
+                    <!-- Dynamic Data Here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
