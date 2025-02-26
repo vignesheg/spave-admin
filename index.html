@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 </head>
+
 <body class="bg-gray-100 p-5">
 
     <div class="container mx-auto">
@@ -17,7 +19,13 @@
         <div class="flex justify-center gap-3 mb-5">
             <button id="download-paper" class="bg-blue-500 text-white px-4 py-2 rounded">Download Paper 📝</button>
             <button id="download-poster" class="bg-green-500 text-white px-4 py-2 rounded">Download Poster 🖼️</button>
-            <button id="download-project" class="bg-yellow-500 text-white px-4 py-2 rounded">Download Project 🏗️</button>
+            <button id="download-project" class="bg-yellow-500 text-white px-4 py-2 rounded">Download Project
+                🏗️</button>
+        </div>
+        <!-- Search Box for UPI Transaction ID -->
+        <div class="flex justify-center mb-5">
+            <input id="searchBox" type="text" placeholder="Search UPI Transaction ID..."
+                class="border p-2 rounded w-1/2">
         </div>
 
         <div class="overflow-x-auto">
@@ -45,4 +53,19 @@
     </div>
 
 </body>
+<script>
+    document.getElementById('searchBox').addEventListener('input', function () {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll('#data-table tr');
+
+    rows.forEach(row => {
+        let transactionIdCell = row.cells[4]; // 5th column (0-based index)
+        if (transactionIdCell) {
+            let transactionId = transactionIdCell.textContent.toLowerCase();
+            row.style.display = transactionId.includes(filter) ? '' : 'none';
+        }
+    });
+});
+
+    </script>
 </html>
