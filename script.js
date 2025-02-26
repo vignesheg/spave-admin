@@ -42,6 +42,7 @@ const fetchData = async () => {
         const teams = snapshot.val();
         let i = 1;
         let x = 1;
+        let y = 0;
         Object.keys(teams).forEach((teamId) => {
             Object.keys(teams[teamId].events).forEach((event) => {
 
@@ -51,7 +52,7 @@ const fetchData = async () => {
                 details.member3.name != "" ? x++ : x;
                 if(details.hasOwnProperty("member4")){details.member4.name != "" ? x++ : x;}
                 row.innerHTML = `
-                    <td class="p-3">${i++}</td>
+                    <td class="p-3">${i}</td>
                     <td class="p-3">${x}</td>
                     <td class="p-3">${details.college}</td>
                     <td class="p-3">${details.phone}</td>
@@ -69,13 +70,15 @@ const fetchData = async () => {
                         <button class="bg-red-500 text-white px-3 py-1 rounded delete-btn" data-team="${teamId}" data-event="${event}">Delete</button>
                     </td>
                 `;
-               x = 1;
+               
                 tableBody.appendChild(row);
 
                 // Store data for Excel generation
                 eventData.push({
                     College: details.college,
+                    No_of_members: x,
                     Title: details.title,
+                    verified:details.verified,
                     Department: details.department,
                     Head_Name: details.head.name,
                     Roll_No: details.head.rollNo,
@@ -88,8 +91,16 @@ const fetchData = async () => {
                     Event: event,
                     'Phone No': details.phone
                 });
+                i++;
+                y+=x;
+                x = 1;
             });
         });
+        console.log(i);
+        console.log(y);
+        
+        const row = document.createElement("tr");
+        document.getElementById("count").innerHTML = `Total Participants : ${y}`
 
         attachEventListeners();
     } else {
@@ -130,18 +141,24 @@ const attachEventListeners = () => {
 };
 
 // 🔹 Download as Spreadsheet
+// 🔹 Download as Spreadsheet with Sorted Data (by Head Name)
 const downloadExcel = (eventType) => {
-    const filteredData = eventData.filter(entry => entry.Event.toLowerCase() === eventType.toLowerCase());
+    let filteredData = eventData.filter(entry => entry.Event.toLowerCase() === eventType.toLowerCase());
+
     if (filteredData.length === 0) {
         alert(`No data available for ${eventType}`);
         return;
     }
+
+    // 🔹 Sort data alphabetically by 'Head Name'
+    filteredData.sort((a, b) => a["Head_Name"].localeCompare(b["Head_Name"]));
 
     const ws = XLSX.utils.json_to_sheet(filteredData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, eventType);
     XLSX.writeFile(wb, `${eventType}_Event.xlsx`);
 };
+
 
 // 🔹 Event Listeners for Download Buttons
 document.getElementById("download-paper").addEventListener("click", () => downloadExcel("paper"));
