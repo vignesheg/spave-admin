@@ -67,7 +67,7 @@ const fetchData = async () => {
                     <td class="p-3">
                         <button class="bg-green-500 text-white px-3 py-1 rounded confirm-btn" data-team="${teamId}" data-event="${event}">Confirm</button>
                         <button class="bg-yellow-500 text-white px-3 py-1 rounded unconfirm-btn" data-team="${teamId}" data-event="${event}">Unconfirm</button>
-                        <button class="bg-red-500 text-white px-3 py-1 rounded delete-btn" data-team="${teamId}" data-event="${event}">Delete</button>
+                        
                     </td>
                 `;
                
