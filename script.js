@@ -5,23 +5,23 @@ import { getDatabase, ref, get, update, remove } from "https://www.gstatic.com/f
 const firebaseConfig = {
 
     apiKey: "AIzaSyBgPxkEiG6AdyeL-ciyflhMkRZeCHO-LF8",
-  
+
     authDomain: "spave-215af.firebaseapp.com",
-  
+
     databaseURL: "https://spave-215af-default-rtdb.firebaseio.com",
-  
+
     projectId: "spave-215af",
-  
+
     storageBucket: "spave-215af.firebasestorage.app",
-  
+
     messagingSenderId: "337436272091",
-  
+
     appId: "1:337436272091:web:951fdd078824a5f28d73fe",
-  
+
     measurementId: "G-3L5W2R65YP"
-  
-  };
-  
+
+};
+
 
 // 🔹 Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -40,13 +40,19 @@ const fetchData = async () => {
 
     if (snapshot.exists()) {
         const teams = snapshot.val();
-
+        let i = 1;
+        let x = 1;
         Object.keys(teams).forEach((teamId) => {
             Object.keys(teams[teamId].events).forEach((event) => {
+
                 const details = teams[teamId].events[event].details;
                 const row = document.createElement("tr");
-
+                details.member2.name != "" ? x++ : x;
+                details.member3.name != "" ? x++ : x;
+                if(details.hasOwnProperty("member4")){details.member4.name != "" ? x++ : x;}
                 row.innerHTML = `
+                    <td class="p-3">${i++}</td>
+                    <td class="p-3">${x}</td>
                     <td class="p-3">${details.college}</td>
                     <td class="p-3">${details.phone}</td>
                     <td class="p-3">${details.upi}</td>
@@ -63,17 +69,24 @@ const fetchData = async () => {
                         <button class="bg-red-500 text-white px-3 py-1 rounded delete-btn" data-team="${teamId}" data-event="${event}">Delete</button>
                     </td>
                 `;
-
+               x = 1;
                 tableBody.appendChild(row);
 
                 // Store data for Excel generation
                 eventData.push({
                     College: details.college,
+                    Title: details.title,
                     Department: details.department,
-                    "Head Name": details.head.name,
-                    "Roll No": details.head.rollNo,
+                    Head_Name: details.head.name,
+                    Roll_No: details.head.rollNo,
+                    Member_2: details.hasOwnProperty("member2") ? details.member2.name : "N/A",
+                    Member_2_Roll_No: details.hasOwnProperty("member2") ? details.member2.rollNo : "N/A",
+                    Member_3: details.hasOwnProperty("member3") ? details.member3.name : "N/A",
+                    Member_3_Roll_No: details.hasOwnProperty("member3") ? details.member3.rollNo : "N/A",
+                    Member_4: details.hasOwnProperty("member4") ? details.member4.name : "N/A",
+                    Member_4_Roll_No: details.hasOwnProperty("member4") ? details.member4.rollNo : "N/A",
                     Event: event,
-                    Verified: details.verified ? "Yes" : "No"
+                    'Phone No': details.phone
                 });
             });
         });
